@@ -9,26 +9,12 @@ function Screen({ startGame }: { startGame: (start: boolean) => void }) {
   const { recTime, setRecTime, state, start: startTimer, reset: resetTimer } = useTimer();
   const [titleIdx, setTitleIdx] = useState(0);
 
-  const handleClick = () => {
-    if (clickInterval) {
-      clearInterval(clickInterval);
-      setRecTime({ second: state.second, millisecond: state.millisecond });
-      resetTimer();
-    }
-
-    if (titleIdx === 0) {
-      setTitleIdx(1);
-    } else {
-      clickInterval = startTimer();
-    }
-  };
-
   useEffect(() => {
     let titleInterval: number;
 
     if (titleIdx !== 0) {
       if (titleIdx < titles.length) {
-        titleInterval = setTimeout(() => setTitleIdx(titleIdx + 1), 1000);
+        titleInterval = startTitleSeq();
       } else {
         startGame(true);
         clickInterval = startTimer();
@@ -44,6 +30,24 @@ function Screen({ startGame }: { startGame: (start: boolean) => void }) {
       clearInterval(clickInterval);
     };
   }, []);
+
+  const handleClick = () => {
+    if (clickInterval) {
+      clearInterval(clickInterval);
+      setRecTime({ second: state.second, millisecond: state.millisecond });
+      resetTimer();
+    }
+
+    if (titleIdx === 0) {
+      setTitleIdx(1);
+    } else {
+      clickInterval = startTimer();
+    }
+  };
+
+  const startTitleSeq = () => {
+    return setTimeout(() => setTitleIdx(titleIdx + 1), 1000);
+  };
 
   return (
     <div
