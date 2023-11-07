@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
-import Timer from "./Timer";
+import Timer from "../Timer";
 
 type State = {
   second: number;

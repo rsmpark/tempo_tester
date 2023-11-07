@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Metronome from "./components/Metronome";
-import Screen from "./components/Screen";
+import Screen from "./components/screen/Screen";
 
 function App() {
   const [start, setStart] = useState(false);
+
   return (
     <>
-      <Screen onGameStart={setStart} />;
+      <Screen startGame={setStart} />;
       <Metronome start={start} />
     </>
   );
