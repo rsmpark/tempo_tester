@@ -7,10 +7,10 @@ let timer: number | undefined;
 const cl1 = new Audio(click1);
 const cl2 = new Audio(click2);
 
-function Metronome() {
+function Metronome({ start }: { start: boolean }) {
   const [playing, setPlaying] = useState(false);
   const [count, setCount] = useState(0);
-  const [bpm, setBpm] = useState(100);
+  const [bpm, setBpm] = useState(60);
 
   useEffect(() => {
     if (playing) {
@@ -21,6 +21,12 @@ function Metronome() {
       }
     }
   }, [count, playing]);
+
+  useEffect(() => {
+    if (start) {
+      handleStartStop();
+    }
+  }, [start]);
 
   const handleStartStop = () => {
     if (playing) {

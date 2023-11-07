@@ -10,6 +10,8 @@ type Action = {
   type: string;
 };
 
+const DELAY = 10;
+
 const initialState = { second: 0, millisecond: 0 };
 
 const reducer = (state: State, action: Action) => {
@@ -30,22 +32,28 @@ const reducer = (state: State, action: Action) => {
   throw Error("Unknown action: " + action.type);
 };
 
-let interval: number;
+let clickInterval: number;
+const titles: string[] = ["Click to start", "Ready", "Set", "Go!"];
 
-function Screen() {
+function Screen({ onGameStart }: { onGameStart: (start: boolean) => void }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [recTime, setRecTime] = useState({ second: 0, millisecond: 0 });
+  const [titleIdx, setTitleIdx] = useState(0);
 
   const handleClick = () => {
-    if (interval) {
-      clearInterval(interval);
+    if (clickInterval) {
+      clearInterval(clickInterval);
       setRecTime({ second: state.second, millisecond: state.millisecond });
       dispatch({ type: "RESET" });
     }
 
-    interval = setInterval(() => {
-      dispatch({ type: "INC_MSEC" });
-    }, 10);
+    if (titleIdx === 0) {
+      setTitleIdx(1);
+    } else {
+      clickInterval = setInterval(() => {
+        dispatch({ type: "INC_MSEC" });
+      }, DELAY);
+    }
   };
 
   useEffect(() => {
@@ -56,8 +64,26 @@ function Screen() {
   }, [state.millisecond, state.second]);
 
   useEffect(() => {
+    let titleInterval: number;
+
+    if (titleIdx !== 0) {
+      if (titleIdx < titles.length) {
+        titleInterval = setTimeout(() => setTitleIdx(titleIdx + 1), 1000);
+      } else {
+        onGameStart(true);
+        clickInterval = setInterval(() => {
+          dispatch({ type: "INC_MSEC" });
+        }, DELAY);
+      }
+    }
     return () => {
-      clearInterval(interval);
+      clearInterval(titleInterval);
+    };
+  }, [titleIdx]);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(clickInterval);
     };
   }, []);
 
@@ -66,7 +92,7 @@ function Screen() {
       style={{ width: "600px", height: "800px", backgroundColor: "lightgrey" }}
       onClick={handleClick}
     >
-      Screen
+      {titles[titleIdx]}
       <Timer second={state.second} millisecond={state.millisecond} recTime={recTime} />
     </div>
   );
