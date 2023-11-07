@@ -53,9 +53,13 @@ function Screen() {
       dispatch({ type: "RESET_MSEC" });
       dispatch({ type: "INC_SEC" });
     }
-
-    console.log(`${state.second}:${state.millisecond}`);
   }, [state.millisecond, state.second]);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div
