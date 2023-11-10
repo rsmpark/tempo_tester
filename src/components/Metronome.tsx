@@ -24,6 +24,12 @@ function Metronome({ start }: { start: boolean }) {
     }
   }, [count, playing]);
 
+  useEffect(() => {
+    if (start) {
+      handleStartStop();
+    }
+  }, [start]);
+
   const handleStartStop = () => {
     if (playing) {
       //stops timer
@@ -54,10 +60,6 @@ function Metronome({ start }: { start: boolean }) {
       setBpm(+newBpm);
     }
   };
-
-  if (start) {
-    handleStartStop();
-  }
 
   return (
     <div className="bpm-slider">
