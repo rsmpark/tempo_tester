@@ -1,53 +1,35 @@
 import { useEffect, useState } from "react";
-import Timer from "../Timer";
-import { useTimer } from "./hooks/useTimer";
 
 const titles: string[] = ["Click to start", "Ready", "Set", "Go!"];
-let clickInterval: number | undefined;
 
 function Screen({ startGame }: { startGame: (start: boolean) => void }) {
-  const { recTime, setRecTime, state, start: startTimer, reset: resetTimer } = useTimer();
-  const [titleIdx, setTitleIdx] = useState(0);
+  const [titleIdx, setTitleIdx] = useState<number>(0);
+  const [tapTime, setTapTime] = useState<number[]>([]);
+  const [tapCount, setTapCount] = useState<number>(0);
 
-  useEffect(() => {
-    let titleInterval: number;
-
-    if (titleIdx !== 0) {
-      if (titleIdx < titles.length) {
-        titleInterval = startTitleSeq();
-      } else {
-        startGame(true);
-        clickInterval = startTimer();
-      }
-    }
-    return () => {
-      clearInterval(titleInterval);
-    };
-  }, [titleIdx]);
-
-  useEffect(() => {
-    return () => {
-      clearInterval(clickInterval);
-    };
-  }, []);
-
-  const handleClick = () => {
-    if (clickInterval) {
-      clearInterval(clickInterval);
-      setRecTime({ second: state.second, millisecond: state.millisecond });
-      resetTimer();
-    }
-
-    if (titleIdx === 0) {
-      setTitleIdx(1);
-    } else {
-      clickInterval = startTimer();
-    }
-  };
+  let titleSeqInterval: ReturnType<typeof setTimeout> | undefined;
 
   const startTitleSeq = () => {
-    return setTimeout(() => setTitleIdx(titleIdx + 1), 1000);
+    return setInterval(() => {
+      setTitleIdx((prev) => prev + 1);
+    }, 1000);
   };
+
+  const handleClick = () => {
+    if (titleIdx === 0) {
+      setTitleIdx(1);
+      titleSeqInterval = startTitleSeq();
+    } else {
+      setTapTime([...tapTime, Date.now()]);
+    }
+  };
+
+  useEffect(() => {
+    if (titleIdx === titles.length - 1) {
+      startGame(true);
+      clearInterval(titleSeqInterval);
+    }
+  }, [startGame, titleIdx, titleSeqInterval]);
 
   return (
     <div
@@ -55,7 +37,9 @@ function Screen({ startGame }: { startGame: (start: boolean) => void }) {
       onClick={handleClick}
     >
       {titles[titleIdx]}
-      <Timer second={state.second} millisecond={state.millisecond} recTime={recTime} />
+      {tapTime.map((time) => (
+        <p key={time}>{time}</p>
+      ))}
     </div>
   );
 }

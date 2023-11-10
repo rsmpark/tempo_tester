@@ -15,7 +15,7 @@ function Timer({ second, millisecond, recTime }: Props) {
   return (
     <div className="timerFrame">
       <h1>
-        {displayNum(second)}.<span className="ms">{displayNum(millisecond)}</span>
+        {displayNum(second)}.<span className="ms">{millisecond}</span>
       </h1>
       <span className="ms">
         {displayNum(recTime.second)}.{displayNum(recTime.millisecond)}

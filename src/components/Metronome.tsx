@@ -10,10 +10,12 @@ const cl2 = new Audio(click2);
 function Metronome({ start }: { start: boolean }) {
   const [playing, setPlaying] = useState(false);
   const [count, setCount] = useState(0);
-  const [bpm, setBpm] = useState(60);
+  const [bpm, setBpm] = useState(120);
 
   useEffect(() => {
     if (playing) {
+      const time = Date.now();
+      console.log("🚀 ~ file: Metronome.tsx:41 ~ timer=setInterval ~ time:", time);
       if (count % 4 === 0) {
         cl1.play();
       } else {
@@ -21,12 +23,6 @@ function Metronome({ start }: { start: boolean }) {
       }
     }
   }, [count, playing]);
-
-  useEffect(() => {
-    if (start) {
-      handleStartStop();
-    }
-  }, [start]);
 
   const handleStartStop = () => {
     if (playing) {
@@ -59,11 +55,15 @@ function Metronome({ start }: { start: boolean }) {
     }
   };
 
+  if (start) {
+    handleStartStop();
+  }
+
   return (
     <div className="bpm-slider">
       <fieldset>
         <legend>{bpm} BPM</legend>
-        <input type="range" min="60" max="240" value={bpm} onChange={handleBpmChange} />
+        <input type="range" min="40" max="240" value={bpm} onChange={handleBpmChange} />
         <button onClick={handleStartStop}>{playing ? "Stop" : "Start"}</button>
       </fieldset>
       <p>bpm: {bpm}</p>
