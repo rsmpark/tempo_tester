@@ -5,11 +5,12 @@ import Intro from "../stages/intro/Intro";
 import Practice from "../stages/practice/Practice";
 import { getNextStage, Stages } from "../stages/stage.helper";
 import useStage from "../stages/hook/use-stage";
+import usePracticeStage from "../stages/hook/use-practice-stage";
 
 function Screen({ startGame }: { startGame: (start: boolean) => void }) {
   const [tapTime, setTapTime] = useState<number[]>([]);
-  const { stage, setStage, practiceSeq, incrementPracticeClickCnt } = useStage();
-  console.log("🚀 ~ file: Screen.tsx:57 ~ Screen ~ stage:", stage);
+  const { stage, setStage } = useStage();
+  const { practiceSeq, incrementPracticeClickCnt } = usePracticeStage();
 
   const handleScreenClick = () => {
     incrementPracticeClickCnt();
