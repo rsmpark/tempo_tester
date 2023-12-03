@@ -1,0 +1,33 @@
+.container {
+  padding: 120px 20px 20px;
+  height: 760px;
+}
+
+.container h1 {
+  font-size: 4vw;
+}
+
+.container h2 {
+  margin-top: 40px;
+  font-size: 2.1vw;
+}
+
+.container p {
+  margin-top: 15px;
+  font-size: 1.7vw;
+  font-weight: 700;
+}
+
+.container svg {
+  display: inline-flex;
+  align-self: center;
+  height: 1.6em;
+  width: 1.6em;
+  top: 0.5em;
+  position: relative;
+  margin-right: 12px;
+}
+
+.container .start {
+  margin-top: 50px;
+}

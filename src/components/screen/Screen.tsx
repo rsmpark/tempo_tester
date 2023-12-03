@@ -1,46 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const titles: string[] = ["Click to start", "Ready", "Set", "Go!"];
+import "./Screen.css";
+import Intro from "../stages/intro/Intro";
+import Practice from "../stages/practice/Practice";
+import { getNextStage, Stages } from "../stages/stage.helper";
+import useStage from "../stages/hook/use-stage";
 
 function Screen({ startGame }: { startGame: (start: boolean) => void }) {
-  const [titleIdx, setTitleIdx] = useState<number>(0);
   const [tapTime, setTapTime] = useState<number[]>([]);
-  const [tapCount, setTapCount] = useState<number>(0);
+  const { stage, setStage, practiceSeq, incrementPracticeClickCnt } = useStage();
+  console.log("🚀 ~ file: Screen.tsx:57 ~ Screen ~ stage:", stage);
 
-  let titleSeqInterval: ReturnType<typeof setTimeout> | undefined;
-
-  const startTitleSeq = () => {
-    return setInterval(() => {
-      setTitleIdx((prev) => prev + 1);
-    }, 1000);
+  const handleScreenClick = () => {
+    incrementPracticeClickCnt();
   };
 
-  const handleClick = () => {
-    if (titleIdx === 0) {
-      setTitleIdx(1);
-      titleSeqInterval = startTitleSeq();
-    } else {
-      setTapTime([...tapTime, Date.now()]);
-    }
+  const setNextStage = () => {
+    setStage(getNextStage(stage));
   };
-
-  useEffect(() => {
-    if (titleIdx === titles.length - 1) {
-      startGame(true);
-      clearInterval(titleSeqInterval);
-    }
-  }, [startGame, titleIdx, titleSeqInterval]);
 
   return (
-    <div
-      style={{ width: "600px", height: "800px", backgroundColor: "lightgrey" }}
-      onClick={handleClick}
-    >
-      {titles[titleIdx]}
+    <>
+      <div className="container" onClick={handleScreenClick}>
+        {stage === Stages.Intro && <Intro nextStage={setNextStage} />}
+        {stage === Stages.Practice && <Practice sequence={practiceSeq} />}
+      </div>
       {tapTime.map((time) => (
         <p key={time}>{time}</p>
       ))}
-    </div>
+    </>
   );
 }
 

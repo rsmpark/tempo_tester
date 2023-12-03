@@ -3,7 +3,4 @@ export type TimerState = {
   millisecond: number;
 };
 
-export type Action = {
-  type: string;
-  payload?: any;
-};
+// TODO: Refactor types into its own separate files

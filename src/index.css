@@ -12,59 +12,27 @@ code {
 
 * {
   margin: 0px auto;
+  box-sizing: border-box;
 }
 
 body {
-  margin-top: 100px;
+  margin: 0 auto;
+  padding: 90px 0 90px;
   text-align: center;
-  background-color: #020c12;
+  background-color: #112d69;
+  color: white;
+  max-width: 1000px;
 }
 
 h1 {
-  font-size: 40px;
-  color: #3b5d71;
+  font-size: 56px;
 }
 
-.timerFrame {
-  box-sizing: border-box;
-  padding-top: 60px;
-  border: 3px solid #60a1c4;
-  min-width: 180;
-  max-width: 300px;
-  height: 180px;
-  border-radius: 4%;
+h2 {
+  font-size: 26px;
+  font-weight: 400;
 }
 
-p {
-  color: white;
-}
-
-button,
-.lapId {
-  border: 1px solid #06354f;
-  background-color: #5c97b8;
-  font-size: 24px;
-}
-
-.lapId {
-  padding: 0px 2px;
-}
-
-.lap {
-  margin-bottom: 4px;
-}
-
-.lap-div {
-  height: 600px;
-  overflow: auto;
-  width: 400px;
-  margin: 0px auto;
-}
-
-button:hover {
-  border: 1px solid #06354f;
-  background-color: #74bfeb;
-}
-.ms {
-  font-size: 0.6em;
+a {
+  cursor: pointer;
 }

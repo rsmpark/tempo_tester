@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <Screen startGame={setStart} />;
+      <Screen startGame={setStart} />
       <Metronome start={start} />
     </>
   );
