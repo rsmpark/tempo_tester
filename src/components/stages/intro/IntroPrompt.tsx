@@ -6,7 +6,7 @@ import { defaultStyle, duration, transitionStyles } from "../../util/transition"
 import { BsVolumeUp } from "react-icons/bs";
 import play from "../../../assets/img/play-button.png";
 
-function Intro({ nextStage }: { nextStage: () => void }) {
+function IntroPrompt({ nextStage }: { nextStage: () => void }) {
   const nodeRef = useRef(null);
   const [inProps, setInProps] = useState<boolean>(true);
 
@@ -59,4 +59,4 @@ function Intro({ nextStage }: { nextStage: () => void }) {
   );
 }
 
-export default Intro;
+export default IntroPrompt;
