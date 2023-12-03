@@ -13,3 +13,8 @@ export const transitionStyles: TransitionStylesType = {
   exiting: { opacity: 0 },
   exited: { opacity: 0 },
 };
+
+export const getTransitions = (transitionState: string) => ({
+  ...defaultStyle,
+  ...transitionStyles[transitionState],
+});
