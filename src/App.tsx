@@ -1,14 +1,11 @@
-import { useState } from "react";
-
-import Metronome from "./components/Metronome";
+import Metronome from "./components/metronome/Metronome";
 import Screen from "./components/screen/Screen";
 
 function App() {
-  const [start, setStart] = useState(false);
   return (
     <>
       <Screen />
-      <Metronome start={start} />
+      <Metronome />
     </>
   );
 }
