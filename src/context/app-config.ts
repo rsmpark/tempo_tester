@@ -1,8 +1,9 @@
+import { MetronomeState } from "../components/metronome/types/metornome.type";
 import { Stages } from "../components/stages/stage.helper";
 import { STAGES } from "../components/stages/types/stage.type";
 
 export type AppState = {
-  bpm: number;
+  metronome: MetronomeState;
   stage: STAGES;
   start: boolean;
 };
@@ -15,7 +16,7 @@ export type AppActions =
   | { type: "START"; payload: boolean };
 
 export const initialState = {
-  bpm: 120,
+  metronome: { start: false, bpm: 120 },
   stage: Stages.Intro,
   start: false,
 };
