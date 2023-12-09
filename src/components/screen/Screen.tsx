@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
 import "./Screen.css";
-import { Stages } from "../stages/stage.helper";
+import { AppContext } from "../../context/app-context";
 import IntroPrompt from "../stages/intro/IntroPrompt";
 import PracticePrompt from "../stages/practice/PracticePrompt";
-import { AppContext } from "../../context/app-context";
+import { Stages } from "../stages/stage.helper";
 
 function Screen() {
   const { appState } = useContext(AppContext);

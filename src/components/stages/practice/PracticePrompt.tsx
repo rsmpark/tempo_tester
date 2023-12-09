@@ -1,8 +1,8 @@
-import { Transition } from "react-transition-group";
 import { useRef } from "react";
+import { Transition } from "react-transition-group";
 
-import { duration, getTransitions } from "../../util/transition";
 import useClickListener from "../../hooks/use-click-listener";
+import { duration, getTransitions } from "../../util/transition";
 
 const getSequence = (count: number) => {
   if (count > 5 && count <= 13) {
