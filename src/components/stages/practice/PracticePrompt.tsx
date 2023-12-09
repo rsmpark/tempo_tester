@@ -24,6 +24,8 @@ function PracticePrompt() {
     <p>the beat will disappear in...</p>,
   ];
 
+  const sequence = getSequence(count);
+
   return (
     <>
       {practiceSeqs.map((practiceSeq, index) => (
@@ -31,7 +33,7 @@ function PracticePrompt() {
           key={index}
           nodeRef={practiceSeqRefs[index]}
           appear={true}
-          in={getSequence(count) === index}
+          in={sequence === index}
           timeout={duration}
         >
           {(state) => (

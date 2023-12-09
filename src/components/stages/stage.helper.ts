@@ -4,6 +4,7 @@ export const Stages = {
   Intro: "INTRO",
   Practice: "PRACTICE",
   Game: "GAME",
+  Countdown: "COUNTDOWN",
   Result: "RESULT",
   Empty: "",
 } as const;
@@ -13,6 +14,8 @@ export const getNextStage = (currStage: STAGES): STAGES => {
     case Stages.Intro:
       return Stages.Practice;
     case Stages.Practice:
+      return Stages.Countdown;
+    case Stages.Countdown:
       return Stages.Game;
     case Stages.Game:
       return Stages.Result;
