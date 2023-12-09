@@ -1,11 +1,10 @@
-import { Transition } from "react-transition-group";
 import { useContext, useRef, useState } from "react";
-
-import { defaultStyle, duration, transitionStyles } from "../../util/transition";
-
 import { BsVolumeUp } from "react-icons/bs";
+import { Transition } from "react-transition-group";
+
 import play from "../../../assets/img/play-button.png";
 import { AppContext } from "../../../context/app-context";
+import { defaultStyle, duration, transitionStyles } from "../../util/transition";
 
 function IntroPrompt() {
   const nodeRef = useRef(null);
