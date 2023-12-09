@@ -1,10 +1,22 @@
 import { Transition } from "react-transition-group";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { duration, getTransitions } from "../../util/transition";
+import useClickListener from "../../hooks/use-click-listener";
 
-function PracticePrompt({ sequence }: { sequence: number }) {
+const getSequence = (count: number) => {
+  if (count > 5 && count <= 13) {
+    return 1;
+  } else if (count > 13) {
+    return 2;
+  }
+
+  return 0;
+};
+
+function PracticePrompt() {
   const practiceSeqRefs = [useRef(null), useRef(null), useRef(null)];
+  const { count } = useClickListener();
 
   const practiceSeqs = [
     <p>tap or click to the beat</p>,
@@ -19,7 +31,7 @@ function PracticePrompt({ sequence }: { sequence: number }) {
           key={index}
           nodeRef={practiceSeqRefs[index]}
           appear={true}
-          in={sequence === index}
+          in={getSequence(count) === index}
           timeout={duration}
         >
           {(state) => (
