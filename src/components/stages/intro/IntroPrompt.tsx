@@ -1,14 +1,16 @@
 import { Transition } from "react-transition-group";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 import { defaultStyle, duration, transitionStyles } from "../../util/transition";
 
 import { BsVolumeUp } from "react-icons/bs";
 import play from "../../../assets/img/play-button.png";
+import { AppContext } from "../../../context/app-context";
 
-function IntroPrompt({ nextStage }: { nextStage: () => void }) {
+function IntroPrompt() {
   const nodeRef = useRef(null);
   const [inProps, setInProps] = useState<boolean>(true);
+  const { dispatch } = useContext(AppContext);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ function IntroPrompt({ nextStage }: { nextStage: () => void }) {
       appear={true}
       in={inProps}
       timeout={duration}
-      onExited={nextStage}
+      onExited={() => dispatch({ type: "NEXT_STAGE" })}
     >
       {(state) => (
         <div
