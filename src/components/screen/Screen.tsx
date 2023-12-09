@@ -1,28 +1,23 @@
-import { useState } from "react";
+import { useContext } from "react";
 
 import "./Screen.css";
-import { getNextStage, Stages } from "../stages/stage.helper";
-import useStage from "../stages/hook/use-stage";
+import { Stages } from "../stages/stage.helper";
 import IntroPrompt from "../stages/intro/IntroPrompt";
 import PracticePrompt from "../stages/practice/PracticePrompt";
+import { AppContext } from "../../context/app-context";
 
-function Screen({ startGame }: { startGame: (start: boolean) => void }) {
-  const [tapTime, setTapTime] = useState<number[]>([]);
-  const { stage, setStage } = useStage();
-
-  const setNextStage = () => {
-    setStage(getNextStage(stage));
-  };
+function Screen() {
+  const { appState } = useContext(AppContext);
 
   return (
     <>
       <div className="container">
-        {stage === Stages.Intro && <IntroPrompt nextStage={setNextStage} />}
-        {stage === Stages.Practice && <PracticePrompt />}
+        {appState.stage === Stages.Intro && <IntroPrompt />}
+        {appState.stage === Stages.Practice && <PracticePrompt />}
       </div>
-      {tapTime.map((time) => (
+      {/* {tapTime.map((time) => (
         <p key={time}>{time}</p>
-      ))}
+      ))} */}
     </>
   );
 }

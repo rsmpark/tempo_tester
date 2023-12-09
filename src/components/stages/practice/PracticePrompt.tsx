@@ -1,5 +1,5 @@
 import { Transition } from "react-transition-group";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 import { duration, getTransitions } from "../../util/transition";
 import useClickListener from "../../hooks/use-click-listener";

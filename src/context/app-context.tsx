@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, createContext, useReducer } from "react";
 import { AppActions, AppState, Dispatch, initialState } from "./app-config";
+import { getNextStage } from "../components/stages/stage.helper";
 
 const contextState = {
   appState: initialState,
@@ -18,6 +19,11 @@ const reducer = (state: AppState, action: AppActions) => {
       return {
         ...state,
         bpm: action.payload,
+      };
+    case "NEXT_STAGE":
+      return {
+        ...state,
+        stage: getNextStage(state.stage),
       };
     default:
       return state;
