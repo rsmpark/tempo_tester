@@ -13,6 +13,7 @@ function IntroPrompt() {
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    dispatch({ type: "START", payload: true });
     setInProps(false);
   };
 
