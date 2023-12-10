@@ -13,8 +13,12 @@ function IntroPrompt() {
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    dispatch({ type: "START", payload: true });
     setInProps(false);
+  };
+
+  const handleExited = () => {
+    dispatch({ type: "START", payload: true });
+    dispatch({ type: "NEXT_STAGE" });
   };
 
   const introContent = (
@@ -44,7 +48,7 @@ function IntroPrompt() {
       appear={true}
       in={inProps}
       timeout={duration}
-      onExited={() => dispatch({ type: "NEXT_STAGE" })}
+      onExited={handleExited}
     >
       {(state) => (
         <div
