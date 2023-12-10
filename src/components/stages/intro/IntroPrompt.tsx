@@ -1,15 +1,17 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BsVolumeUp } from "react-icons/bs";
 import { Transition } from "react-transition-group";
 
 import play from "../../../assets/img/play-button.png";
-import { AppContext } from "../../../context/app-context";
+import { useAppCtx } from "../../../context/hooks/useAppCtx";
+import { useMetronomeCtx } from "../../../context/hooks/useMetronomeCtx";
 import { defaultStyle, duration, transitionStyles } from "../../util/transition";
 
 function IntroPrompt() {
   const nodeRef = useRef(null);
   const [inProps, setInProps] = useState<boolean>(true);
-  const { dispatch } = useContext(AppContext);
+  const { dispatch: appDispatch } = useAppCtx();
+  const { dispatch: metronomeDispatch } = useMetronomeCtx();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -17,8 +19,8 @@ function IntroPrompt() {
   };
 
   const handleExited = () => {
-    dispatch({ type: "START", payload: true });
-    dispatch({ type: "NEXT_STAGE" });
+    metronomeDispatch({ type: "START", payload: true });
+    appDispatch({ type: "NEXT_STAGE" });
   };
 
   const introContent = (

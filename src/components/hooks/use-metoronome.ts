@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 import click1 from "../../assets/audio/click1.wav";
 import click2 from "../../assets/audio/click2.wav";
-import { AppContext } from "../../context/app-context";
+import { useMetronomeCtx } from "../../context/hooks/useMetronomeCtx";
 
 let timer: number | undefined;
 
@@ -10,11 +10,12 @@ const cl1 = new Audio(click1);
 const cl2 = new Audio(click2);
 
 export function useMetronome() {
-  const { appState, dispatch } = useContext(AppContext);
-  const { start, bpm } = appState.metronome;
+  const { state, dispatch } = useMetronomeCtx();
+  const { bpm, isPlaying } = state;
+  console.log("🚀 ~ file: use-metoronome.ts:25 ~ useMetronome ~ isPlaying:", isPlaying);
   const [count, setCount] = useState(0);
 
-  if (start) {
+  if (isPlaying) {
     clearInterval(timer);
     timer = setInterval(() => {
       setCount((prev) => (prev + 1) % 4);
@@ -22,17 +23,17 @@ export function useMetronome() {
   }
 
   useEffect(() => {
-    if (start) {
+    if (isPlaying) {
       if (count % 4 === 0) {
         cl1.play();
       } else {
         cl2.play();
       }
     }
-  }, [count, start]);
+  }, [count, isPlaying]);
 
   const handleToggle = () => {
-    if (start) {
+    if (isPlaying) {
       clearInterval(timer);
       dispatch({ type: "START", payload: false });
     } else {
@@ -42,8 +43,8 @@ export function useMetronome() {
 
   const handleBpmChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newBpm = event.target.value;
-    if (start) {
-      //stop the old timer and start a new one
+    if (isPlaying) {
+      //stop the old timer and isPlaying a new one
       clearInterval(timer);
       timer = setInterval(() => {
         setCount((prev) => (prev + 1) % 4);
@@ -56,5 +57,5 @@ export function useMetronome() {
     }
   };
 
-  return { bpm, start, count, handleToggle, handleBpmChange };
+  return { bpm, isPlaying, count, handleToggle, handleBpmChange };
 }

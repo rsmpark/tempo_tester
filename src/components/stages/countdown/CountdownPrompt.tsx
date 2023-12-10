@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { AppContext } from "../../../context/app-context";
+import { AppContext } from "../../../context/app/app-ctx";
 
 const CountdownPrompt = () => {
   const [count, setCount] = useState(5);
