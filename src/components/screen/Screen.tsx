@@ -1,21 +1,20 @@
-import { useContext } from "react";
-
 import "./Screen.css";
-import { AppContext } from "../../context/app-context";
+
+import { useAppCtx } from "../../context/hooks/useAppCtx";
 import CountdownPrompt from "../stages/countdown/CountdownPrompt";
 import IntroPrompt from "../stages/intro/IntroPrompt";
 import PracticePrompt from "../stages/practice/PracticePrompt";
 import { Stages } from "../stages/stage.helper";
 
 function Screen() {
-  const { appState } = useContext(AppContext);
+  const { state } = useAppCtx();
 
   return (
     <>
       <div className="container">
-        {appState.stage === Stages.Intro && <IntroPrompt />}
-        {appState.stage === Stages.Practice && <PracticePrompt />}
-        {appState.stage === Stages.Countdown && <CountdownPrompt />}
+        {state.stage === Stages.Intro && <IntroPrompt />}
+        {state.stage === Stages.Practice && <PracticePrompt />}
+        {state.stage === Stages.Countdown && <CountdownPrompt />}
       </div>
       {/* {tapTime.map((time) => (
         <p key={time}>{time}</p>
