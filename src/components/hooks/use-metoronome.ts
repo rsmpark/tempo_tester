@@ -3,6 +3,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import click1 from "../../assets/audio/click1.wav";
 import click2 from "../../assets/audio/click2.wav";
 import { useMetronomeCtx } from "../../context/hooks/useMetronomeCtx";
+import { getTimeoutDuration } from "../metronome/metronome-util";
 
 let timer: number | undefined;
 
@@ -12,14 +13,13 @@ const cl2 = new Audio(click2);
 export function useMetronome() {
   const { state, dispatch } = useMetronomeCtx();
   const { bpm, isPlaying } = state;
-  console.log("🚀 ~ file: use-metoronome.ts:25 ~ useMetronome ~ isPlaying:", isPlaying);
   const [count, setCount] = useState(0);
 
   if (isPlaying) {
     clearInterval(timer);
     timer = setInterval(() => {
       setCount((prev) => (prev + 1) % 4);
-    }, (60 / bpm) * 1000);
+    }, getTimeoutDuration(bpm));
   }
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function useMetronome() {
       clearInterval(timer);
       timer = setInterval(() => {
         setCount((prev) => (prev + 1) % 4);
-      }, (60 / +newBpm) * 1000);
+      }, getTimeoutDuration(+newBpm));
 
       //Set the new bpm, and reset the beat counter
       dispatch({ type: "SET_BPM", payload: +newBpm });

@@ -1,15 +1,17 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Transition } from "react-transition-group";
 
-import { AppContext } from "../../../context/app/app-ctx";
+import { useAppCtx } from "../../../context/hooks/useAppCtx";
 import useClickListener from "../../hooks/use-click-listener";
 import { duration, getTransitions } from "../../util/transition";
 
 const getSequence = (count: number) => {
-  if (count > 5 && count <= 13) {
+  if (count > 5 && count <= 11) {
     return 1;
-  } else if (count > 13) {
+  } else if (count > 11 && count <= 17) {
     return 2;
+  } else if (count > 17) {
+    return 3;
   }
 
   return 0;
@@ -17,6 +19,7 @@ const getSequence = (count: number) => {
 
 function PracticePrompt() {
   const practiceSeqRefs = [useRef(null), useRef(null), useRef(null)];
+  const { dispatch } = useAppCtx();
   const { count } = useClickListener();
 
   const practiceSeqs = [
@@ -26,6 +29,12 @@ function PracticePrompt() {
   ];
 
   const sequence = getSequence(count);
+
+  useEffect(() => {
+    if (sequence === 3) {
+      dispatch({ type: "NEXT_STAGE" });
+    }
+  }, [sequence, dispatch]);
 
   return (
     <>
