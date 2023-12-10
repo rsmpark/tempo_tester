@@ -1,15 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { AppContext } from "../../../context/app/app-ctx";
+import { useAppCtx } from "../../../context/hooks/useAppCtx";
+import { useMetronomeCtx } from "../../../context/hooks/useMetronomeCtx";
+import { getTimeoutDuration } from "../../metronome/metronome-util";
 
 const CountdownPrompt = () => {
   const [count, setCount] = useState(5);
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useAppCtx();
+  const { state } = useMetronomeCtx();
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCount((prevCount) => prevCount - 1);
-    }, 1000);
+    }, getTimeoutDuration(state.bpm));
 
     return () => {
       clearInterval(timer);
