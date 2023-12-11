@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useEffect, ChangeEvent } from "react";
 
 import click1 from "../../assets/audio/click1.wav";
 import click2 from "../../assets/audio/click2.wav";
@@ -12,18 +12,17 @@ const cl2 = new Audio(click2);
 
 export function useMetronome() {
   const { state, dispatch } = useMetronomeCtx();
-  const { bpm, isPlaying } = state;
-  const [count, setCount] = useState(0);
+  const { bpm, isPlaying, count } = state;
 
-  if (isPlaying) {
-    clearInterval(timer);
+  if (isPlaying && !timer) {
     timer = setInterval(() => {
-      setCount((prev) => (prev + 1) % 4);
+      dispatch({ type: "INC_CNT" });
     }, getTimeoutDuration(bpm));
   }
 
   useEffect(() => {
     if (isPlaying) {
+      console.log("🚀 ~ file: use-metoronome.ts:27 ~ useEffect ~ count:", count);
       if (count % 4 === 0) {
         cl1.play();
       } else {
@@ -35,6 +34,7 @@ export function useMetronome() {
   const handleToggle = () => {
     if (isPlaying) {
       clearInterval(timer);
+      timer = undefined;
       dispatch({ type: "START", payload: false });
     } else {
       dispatch({ type: "START", payload: true });
@@ -47,7 +47,7 @@ export function useMetronome() {
       //stop the old timer and isPlaying a new one
       clearInterval(timer);
       timer = setInterval(() => {
-        setCount((prev) => (prev + 1) % 4);
+        dispatch({ type: "INC_CNT" });
       }, getTimeoutDuration(+newBpm));
 
       //Set the new bpm, and reset the beat counter

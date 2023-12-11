@@ -15,6 +15,11 @@ const reducer = (state: MetronomeState, action: MetronomeActions) => {
         ...state,
         bpm: action.payload,
       };
+    case "INC_CNT":
+      return {
+        ...state,
+        count: (state.count + 1) % 4,
+      };
     case "START":
       return {
         ...state,
@@ -26,7 +31,7 @@ const reducer = (state: MetronomeState, action: MetronomeActions) => {
 };
 
 export const MetronomeProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, { bpm: 120, isPlaying: false });
+  const [state, dispatch] = useReducer(reducer, { bpm: 120, count: 0, isPlaying: false });
 
   return (
     <MetronomeContext.Provider value={{ state, dispatch }}>
