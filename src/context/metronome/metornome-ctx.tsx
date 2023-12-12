@@ -31,7 +31,7 @@ const reducer = (state: MetronomeState, action: MetronomeActions) => {
 };
 
 export const MetronomeProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, { bpm: 120, count: 0, isPlaying: false });
+  const [state, dispatch] = useReducer(reducer, { bpm: 1, count: 0, isPlaying: false });
 
   return (
     <MetronomeContext.Provider value={{ state, dispatch }}>

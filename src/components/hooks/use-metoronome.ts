@@ -22,7 +22,6 @@ export function useMetronome() {
 
   useEffect(() => {
     if (isPlaying) {
-      console.log("🚀 ~ file: use-metoronome.ts:27 ~ useEffect ~ count:", count);
       if (count % 4 === 0) {
         cl1.play();
       } else {
