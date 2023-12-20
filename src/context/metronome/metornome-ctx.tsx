@@ -6,6 +6,22 @@ export const MetronomeContext = createContext<
   { state: MetronomeState; dispatch: Dispatch } | undefined
 >(undefined);
 
+const useReducerWithMiddleware = (
+  reducer: (state: MetronomeState, action: MetronomeActions) => MetronomeState,
+  initialState: MetronomeState,
+  middlewares: ((action: MetronomeActions, state: MetronomeState) => void)[]
+): [MetronomeState, Dispatch] => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log("🚀 ~ file: metornome-ctx.tsx:15 ~ state:", state);
+
+  const dispatchWithMiddleware = (action: MetronomeActions) => {
+    middlewares.forEach((middleware) => middleware(action, state));
+    dispatch(action);
+  };
+
+  return [state, dispatchWithMiddleware];
+};
+
 const reducer = (state: MetronomeState, action: MetronomeActions) => {
   const { type } = action;
 
@@ -15,6 +31,7 @@ const reducer = (state: MetronomeState, action: MetronomeActions) => {
         ...state,
         bpm: action.payload,
       };
+
     case "INC_CNT":
       return {
         ...state,
@@ -30,8 +47,20 @@ const reducer = (state: MetronomeState, action: MetronomeActions) => {
   }
 };
 
+const logPreviousState = (action: MetronomeActions, state: MetronomeState) => {
+  console.log("🚀 ~ file: metornome-ctx.tsx:49 ~ logPreviousState ~ state:", state);
+};
+
 export const MetronomeProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, { bpm: 1, count: 0, isPlaying: false });
+  const [state, dispatch] = useReducerWithMiddleware(
+    reducer,
+    {
+      bpm: 120,
+      count: 0,
+      isPlaying: false,
+    },
+    [logPreviousState]
+  );
 
   return (
     <MetronomeContext.Provider value={{ state, dispatch }}>
